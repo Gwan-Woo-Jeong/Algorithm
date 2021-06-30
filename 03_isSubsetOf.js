@@ -37,37 +37,46 @@ console.log(output); // --> false
 Advanced
 시간 복잡도를 개선하여, Advanced 테스트 케이스(base, sample의 길이가 70,000 이상)를 통과해 보세요.
 */
-
 const isSubsetOf = function (base, sample) {
-    base.sort((a, b) => (a - b));
-    sample.sort((a, b) => (a - b));
-  
-    const subsetFinder = (start, lookFor, base) => {
-      for(let i = start; i < base.length; i += 1){
-        if(lookFor === base[i]) return i;
-        if(lookFor < base[i]) return -1;
-      }
-      return -1;
+    // * 1-1) 배열을 오름차순 정렬
+    base.sort((a, b) => a - b);
+    sample.sort((a, b) => a - b);
+
+    // base에서 sample의 요소를 찾는 함수
+    const findItemInSortedArr = (item, arr, from) => {
+        for (let i = from; i < arr.length; i++) {
+            // 찾으면, 해당 인덱스를 리턴
+            if (item === arr[i]) return i;
+            // * 1-2) 순회하는 요소가 찾는 값보다 크면 -1을 리턴 
+            else if (item < arr[i]) return -1;
+        }
+        // 마지막까지 찾지 못하면 -1을 리턴
+        return -1;
     };
-    
+
+    // 반복문 시작 인덱스
     let baseIdx = 0;
-    for(let i = 0; i < sample.length; i += 1){
-      baseIdx = subsetFinder(baseIdx, sample[i], base);
-      if(baseIdx === -1) return false;
+    // sample의 모든 요소를 순회하여 base에서 일치하는 값을 찾는다
+    for (let i = 0; i < sample.length; i++) {
+        // * 2) 같은 값을 찾으면 해당 인덱스부터 반복문을 실행한다  
+        baseIdx = findItemInSortedArr(sample[i], base, baseIdx);
+        // 하나라도 찾지 못하면 부분집합이 아니기 때문에 false를 리턴
+        if (baseIdx === -1) return false;
     }
+    // 모두 찾으면 true를 리턴
     return true;
-  };
-  
-  // base와 sample 배열을 오름차순 정렬한다.
-  
-  // base의 모든 요소와 sample의 일치 여부를 판단하는 함수 (subSetFinder) => (start, lookFor, base)를 선언한다.
-  // start로 시작해서 base의 마지막 요소까지 순회한다.
-  // lookFor와 base[i]가 일치하면, i를 리턴한다.
-  // lookFor가 base[i]보다 작으면, -1을 리턴한다.
-  // 어떤 조건도 충족하지 못하면, -1을 리턴한다.
-  
-  // 마지막으로 탐색한 base의 인덱스를 저장하는 변수(baseIdx)를 0을 넣고 선언한다.
-  // sample의 모든 요소를 순회한다.
-  // subSetFinder에 sample[i]를 실행시킨 결과를 baseIdx에 할당한다.
-  // baseIdx가 -1이면 false를 리턴한다.
-  // 그 외의 값(i)이 나오면 true를 리턴한다.
+};
+
+let base = [1, 2, 3, 4, 5];
+let sample = [1, 3];
+let output = isSubsetOf(base, sample);
+console.log(output); // --> true
+
+sample = [6, 7];
+output = isSubsetOf(base, sample);
+console.log(output); // --> false
+
+base = [10, 99, 123, 7];
+sample = [11, 100, 99, 123];
+output = isSubsetOf(base, sample);
+console.log(output); // --> false
