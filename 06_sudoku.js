@@ -45,32 +45,22 @@ const sudoku = function (board) {
       colUsed.push(Array(N + 1).fill(false));
       boxUsed.push(Array(N + 1).fill(false));
     }
-    console.log(rowUsed);
-    console.log(colUsed);
-    console.log(boxUsed);
-  
-    console.log(board);
+    
     for (let row = 0; row < N; row++) {
       for (let col = 0; col < N; col++) {
         if (board[row][col] === 0) {
           // board에 값이 없을 때
           blanks.push([row, col]); // 값을 넣어야 할 board의 인덱스 위치 [row, col]
-          console.log(blanks);
         } else {
           // board에 값이 있을 때
           const num = board[row][col]; // 해당 값
-          console.log(num);
           const box = getBoxNum(row, col);
-          console.log(box);
           rowUsed[row][num] = true;
           colUsed[col][num] = true;
           boxUsed[box][num] = true;
         }
       }
     }
-    console.log(rowUsed);
-    console.log(colUsed);
-    console.log(boxUsed);
   
     const isValid = (row, col, num) => {
       const box = getBoxNum(row, col);
