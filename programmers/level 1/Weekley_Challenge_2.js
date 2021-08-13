@@ -62,7 +62,6 @@ function solution(scores) {
         }
     }
 
-    scores
     for (let i = 0; i < scores.length; i++) {
         let sum = 0;
         let count = 0;
@@ -99,4 +98,3 @@ console.log(output2); // -> "DA"
 
 let output3 = solution([[70, 49, 90], [68, 50, 38], [73, 31, 100]]);
 console.log(output3); // -> "CFD"
-
