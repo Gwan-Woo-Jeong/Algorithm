@@ -6,6 +6,7 @@
 
 제한 조건
 n과 m은 각각 1000 이하인 자연수입니다.
+
 예시
 입력
 
@@ -29,5 +30,6 @@ function solution(data) {
     }
     return answer;
 };
+
 let output = solution("5 3");
 console.log(output);
