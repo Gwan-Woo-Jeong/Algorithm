@@ -24,21 +24,14 @@ n	result
 */
 
 function solution(n) {
-    let answer = [2];
-    for (let candi = 3; candi <= n; candi += 2) {
-        let sqrt = Math.sqrt(candi);
-        let isPrime = true;
-        for (let divisor = 3; divisor <= sqrt; divisor += 1) {
-            if (candi % divisor === 0) {
-                isPrime = false;
-                break;
-            }
-        }
-        if (isPrime) {
-            answer.push(candi);
+    let answer = new Array(n).fill(1);
+    answer[0] = 0;
+    for (let i = 2; i * i <= n; i += 1) {
+        for (let j = i * i; j <= n; j += i) {
+            answer[j - 1] = 0;
         }
     }
-    return answer.length;
+    return answer.filter(el => el === 1).length;
 }
 
 let output1 = solution(10); // -> 4 
