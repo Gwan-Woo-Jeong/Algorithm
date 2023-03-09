@@ -26,23 +26,22 @@ babbling	result
 function solution(babbling) {
   let answer = 0;
 
-  babbling.forEach((b) => {
+  for (let b of babbling) {
+    b = b.replace(/aya/g, "1");
+    b = b.replace(/ye/g, "2");
+    b = b.replace(/woo/g, "3");
+    b = b.replace(/ma/g, "4");
+
     if (
-      !(
-        b.includes("ayaaya") ||
-        b.includes("yeeyee") ||
-        b.includes("uu") ||
-        b.includes("ma")
-      )
+      b.includes("11") ||
+      b.includes("22") ||
+      b.includes("33") ||
+      b.includes("44")
     ) {
-      b = b.replace(/aya/g, " ");
-      b = b.replace(/ye/g, " ");
-      b = b.replace(/woo/g, " ");
-      b = b.replace(/ma/g, " ");
-      b = b.replace(" ", "");
-      if (b.length === 0) answer++;
+      continue;
     }
-  });
+    if (Number(b)) answer++;
+  }
 
   return answer;
 }
