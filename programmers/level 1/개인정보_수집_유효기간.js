@@ -86,25 +86,25 @@ D	5 달
 다섯 번째 개인정보는 Z약관에 의해 2019년 3월 27일까지 보관 가능하며, 유효기간이 지났으므로 파기해야 할 개인정보다.
  */
 
-function solution(today, terms, privacies) {
-  let answer = [];
+function dateToDays(date) {
+  date = date.split(".");
+  return date[0] * 12 * 28 + date[1] * 28 + date[2] * 1;
+}
 
+function solution(today, terms, privacies) {
+  const answer = [];
   const termsObj = {};
-  const todayTime = new Date(today).getTime();
 
   terms.forEach((term) => {
     const splitted = term.split(" ");
-    termsObj[splitted[0]] = splitted[1] * 28 * 24 * 60 * 60 * 1000;
+    termsObj[splitted[0]] = splitted[1] * 28;
   });
 
   privacies
     .map((privacy) => privacy.split(" "))
     .forEach((each, index) => {
-      const privacyTime = new Date(each[0]).getTime();
-
-      if (todayTime < privacyTime + termsObj[each[1]]) {
+      if (dateToDays(today) >= dateToDays(each[0]) + termsObj[each[1]])
         answer.push(index + 1);
-      }
     });
 
   return answer;
