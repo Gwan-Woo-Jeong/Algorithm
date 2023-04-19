@@ -1,5 +1,20 @@
+const fs = require("fs");
+const filename = __filename.slice(__dirname.length + 1, -3);
+const directory = `baekjoon/${filename}`;
+const testFiles = fs.readdirSync(directory).slice(1);
+const inputs = [];
+
+testFiles.forEach((tf) => {
+  inputs.push(
+    fs
+      .readFileSync(directory + "/" + tf)
+      .toString()
+      .trim()
+      .split("\r\n")
+  );
+});
+
 /*
-문제 1 )
 알파벳 소문자로만 이루어진 단어 S가 주어진다. 각 알파벳이 단어에 몇 개가 포함되어 있는지 구하는 프로그램을 작성하시오.
 
 입력
@@ -7,11 +22,6 @@
 
 출력
 단어에 포함되어 있는 a의 개수, b의 개수, …, z의 개수를 공백으로 구분해서 출력한다.
-
-예제 입력 1 
-abcda
-예제 출력 1 
-2 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 */
 
 function solution(s) {
@@ -25,5 +35,4 @@ function solution(s) {
   return answer;
 }
 
-let output1 = solution("abcda"); // -> 2 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-console.log(output1);
+console.log(solution(inputs[0][0])); // -> 1 1 0 0 1 0 0 0 0 1 1 0 0 1 2 0 0 0 0 0 0 0 0 0 0 0
