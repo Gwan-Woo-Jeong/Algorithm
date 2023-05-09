@@ -89,6 +89,47 @@ function solution(begin, target, words) {
   }
 }
 
+// 인접 리스트 풀이
+function solution(begin, target, words) {
+  words = [begin, ...words];
+  const graph = {};
+  const visited = {};
+
+  for (let i = 0; i < words.length; i++) {
+    visited[words[i]] = 0;
+    graph[words[i]] = words.filter((word) => {
+      let count = 0;
+
+      for (let j = 0; j < word.length; j++) {
+        if (word[j] === words[i][j]) count++;
+      }
+
+      if (word.length - count === 1) return true;
+      return false;
+    });
+  }
+
+  return bfs(begin, target);
+
+  function bfs(start, end) {
+    const queue = [[start, 0]];
+
+    while (queue.length) {
+      const [v, move] = queue.shift();
+
+      if (v === end) return move;
+
+      for (let key in visited) {
+        if (visited[key] === 1 || !graph[key].includes(v)) continue;
+        visited[key] = 1;
+        queue.push([key, move + 1]);
+      }
+    }
+
+    return 0;
+  }
+}
+
 let output1 = solution("hit", "cog", [
   "hot",
   "dot",
