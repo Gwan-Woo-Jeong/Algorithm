@@ -45,13 +45,13 @@ function solution(n, vertex) {
       cnt++;
     }
 
-    for (let nv = 1; nv <= n; nv++) {
+    for (let node of graph[v - 1]) {
       // 아직 탐색 노드를 방문하지 않았고 탐색 노드와 연결되어 있지 않으면 스킵
-      if (visited[nv - 1] === 1 || !graph[v - 1].includes(nv)) continue;
+      if (visited[node - 1] === 1) continue;
       // 탐색 노드 방문 처리
-      visited[nv - 1] = 1;
+      visited[node - 1] = 1;
       // 이동 거리 추가한 후 큐에 푸시
-      queue.push([nv, move + 1]);
+      queue.push([node, move + 1]);
     }
   }
 
