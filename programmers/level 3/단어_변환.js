@@ -119,10 +119,10 @@ function solution(begin, target, words) {
 
       if (v === end) return move;
 
-      for (let key in visited) {
-        if (visited[key] === 1 || !graph[key].includes(v)) continue;
-        visited[key] = 1;
-        queue.push([key, move + 1]);
+      for (let node of graph[v]) {
+        if (visited[node] === 1) continue;
+        visited[node] = 1;
+        queue.push([node, move + 1]);
       }
     }
 
@@ -140,5 +140,5 @@ let output1 = solution("hit", "cog", [
 ]); // -> 4
 console.log(output1);
 
-let output2 = solution("hit", "cog", ["hot", "dot", "dog", "lot", "log"]); // -> 0
-console.log(output2);
+// let output2 = solution("hit", "cog", ["hot", "dot", "dog", "lot", "log"]); // -> 0
+// console.log(output2);
