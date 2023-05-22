@@ -1,13 +1,12 @@
 function solution(numbers) {
   let visit = Array(numbers.length).fill(0);
   let answer = [];
-  let temp = [];
 
   permutation([]);
 
-  function permutation() {
-    if (temp.length === 4) {
-      answer.push(temp.slice());
+  function permutation(arr) {
+    if (arr.length === 4) {
+      answer.push(arr.slice());
       return;
     }
 
@@ -15,9 +14,9 @@ function solution(numbers) {
       if (visit[i]) continue;
 
       visit[i] = 1;
-      temp.push(numbers[i]);
-      permutation(temp);
-      temp.pop();
+      arr.push(numbers[i]);
+      permutation(arr);
+      arr.pop();
       visit[i] = 0;
     }
   }

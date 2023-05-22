@@ -2,6 +2,7 @@ const numbers = [1, 2, 3, 4, 5];
 const answer = [];
 
 function combination(arr, index, target) {
+  console.log(arr)
   if (arr.length === target) {
     answer.push(arr.slice());
     return;
@@ -17,4 +18,4 @@ function combination(arr, index, target) {
 }
 
 combination([], 0, 3);
-console.log(answer);
+// console.log(answer);
