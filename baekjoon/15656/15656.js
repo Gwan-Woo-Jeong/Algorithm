@@ -1,36 +1,35 @@
 const fs = require("fs");
 const path = require("path");
 const filepath = process.platform === "linux" ? "/dev/stdin" : "./input3.txt";
-const splitStr = process.platform === "linux" ? "\n" : "\r\n";
 const input = fs
   .readFileSync(path.resolve(__dirname, filepath))
   .toString()
   .trim()
-  .split(splitStr);
+  .split("\n");
 const [N, M] = input[0].split(" ").map(Number);
+const numbers = input[1].split(" ").map(Number);
 
-function solution(N, M) {
+function solution(N, M, numbers) {
+  numbers = numbers.sort((a, b) => a - b);
+
   let res = "";
 
-  rec([]);
+  permutation([], 0);
 
-  function rec(arr) {
+  function permutation(arr) {
     if (arr.length === M) {
       res += arr.join(" ") + "\n";
       return;
     }
 
-    let start = 1;
-    if (arr.length) start = arr[arr.length - 1];
-
-    for (let i = start; i <= N; i++) {
-      arr.push(i);
-      rec(arr);
+    for (let i = 0; i < N; i++) {
+      arr.push(numbers[i]);
+      permutation(arr, i + 1);
       arr.pop();
     }
   }
 
-  return res.trim();
+  return res;
 }
 
-console.log(solution(N, M));
+console.log(solution(N, M, numbers));
