@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const filepath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
+const filepath = process.platform === "linux" ? "/dev/stdin" : "./input7.txt";
 const splitStr = process.platform !== "win32" ? "\n" : "\r\n";
 const input = fs
   .readFileSync(path.resolve(__dirname, filepath))
@@ -11,44 +11,43 @@ const N = +input[0];
 const eggs = input.slice(1, N + 1).map((r) => r.split(" ").map(Number));
 
 function solution(N, eggs) {
-  let answer = 0;
+  let answer = -1;
+  // 마지막 계란이면 재귀 종료
+  // 계란 하나를 든다
+  // 든 계란이 깨져있으면 다음 계란 재귀
+  // 칠 수 있는 계란을 순회
+  // 든 계란 내구도 빼기
+  // 친 계란 내구도 빼기
+  // 다음 계란 재귀
+  // 계란 내구도 초기화
+  // 계란을 치지 않았으면 마지막 재귀
 
   rec(0, 0);
 
   return answer;
 
-  function rec(select, cnt) {
-    // 선택한 계란이 마지막이면 종료
-    if (select === N - 1) {
-      return (answer = Math.max(answer, cnt));
+  function rec(idx, count) {
+    if (idx === N) {
+      return (answer = Math.max(count, answer));
     }
-    // 계란 들어서
-    const [s, w] = eggs[select];
-    let flag = 0;
 
-    if (s <= 0) {
-      rec(select + 1, cnt);
+    if (eggs[idx][0] <= 0) {
+      rec(idx + 1, count);
     } else {
-      // 선택한 계란을 제외한 나머지 계란을 침
+      let flag = 0;
       for (let i = 0; i < N; i++) {
-        if (select === i) continue;
-        const [s2, w2] = eggs[i];
-        if (s2 <= 0) continue;
+        if (idx === i || eggs[i][0] <= 0) continue;
         flag = 1;
-        // 계란 깨기
-        eggs[i][0] -= w;
-        eggs[select][0] -= w2;
-        // 다음 계란으로 재귀
-        rec(select + 1, cnt + (eggs[i][0] <= 0) + (eggs[select][0] <= 0));
-        // 깨진 계란 다시 복구
-        eggs[i][0] += w;
-        eggs[select][0] += w2;
+        eggs[idx][0] -= eggs[i][1];
+        eggs[i][0] -= eggs[idx][1];
+
+        rec(idx + 1, count + (eggs[idx][0] <= 0) + (eggs[i][0] <= 0));
+
+        eggs[idx][0] += eggs[i][1];
+        eggs[i][0] += eggs[idx][1];
       }
 
-      // 깨진 계란이 없으면 마지막 계란으로 재귀
-      if (!flag) {
-        rec(N - 1, cnt);
-      }
+      if (!flag) rec(N, count);
     }
   }
 }
